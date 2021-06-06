@@ -1,0 +1,4 @@
+*[ !info ]*
+Informasi penting sebelum menggunakan bot.
+
+Contoh: !help
