@@ -16,7 +16,7 @@ if (fs.existsSync(clientSessionPath)) {
 }
 const client = new Client({
     puppeteer: {
-        executablePath: '/usr/bin/google-chrome-stable'
+        executablePath: '/opt/google/chrome/google-chrome'
     },
     session: clientSession,
     ffmpegPath: ffmpeg.path
