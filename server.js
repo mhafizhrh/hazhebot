@@ -11,6 +11,7 @@ const {
     format
 } = require('path/posix')
 
+const apodDataFilePath = process.env.APOD_DATA_FILE_PATH
 const sessionFilePath = process.env.SESSION_FILE_PATH
 const botPrefix = process.env.BOT_PREFIX
 let clientSession
@@ -43,11 +44,18 @@ async function ready() {
         // client.sendMessage("6289658542202-1620654594@g.us", "Hazhebot ready.") // id group bot tester
         const date = new Date()
         const time = date.getHours() + ":" + date.getMinutes()
-        if (time == "00:00" || time == "06:00" || time == "12:00" || time == "18:00") {
-            axios.get('https://api.nasa.gov/planetary/apod?api_key=qdOdkXVe7t6ZDLRrumPsYVlQex4vp0eyA67c9iI6')
-                .then(async (res) => {
-                    data = res.data
-                    console.log("data", data)
+        console.log(time)
+        const apodData = require(apodDataFilePath)
+
+        axios.get('https://api.nasa.gov/planetary/apod?api_key=qdOdkXVe7t6ZDLRrumPsYVlQex4vp0eyA67c9iI6')
+            .then(async (res) => {
+                data = res.data
+                const apodUrlSaved = apodData.url
+                const apodUrl = data.url
+                console.log(apodUrlSaved != apodUrl)
+                console.log(apodUrlSaved, apodUrl)
+                if (apodUrlSaved != apodUrl) {
+                    fs.writeFileSync(apodDataFilePath, JSON.stringify(data))
                     const file_url = data.url
                     const b64data = await base64.encode(file_url, {
                         string: true
@@ -61,7 +69,7 @@ async function ready() {
                     const mediaType = data.media_type
                     const media = new MessageMedia(`${mediaType}/${ext}`, b64data, filename)
                     const groups = [
-                        "6281311235966-1529884533@g.us",
+                        // "6281311235966-1529884533@g.us",
                         "6289658542202-1620654594@g.us"
                     ]
                     groups.forEach(chatId => {
@@ -69,9 +77,11 @@ async function ready() {
                             caption: `*[Astronomy Picture of the Day]* ${data.date} \n\n*${data.title}* \n\n"${data.explanation}" \nCopyright: ${copyright} \n\nMedia HD Url: ${hdurl} \n\nSource: NASA`
                         })
                     });
-                })
-        }
-        await sleep(1000)
+                }
+
+            })
+
+        await sleep(5 * 60000)
     }
 }
 client.on('message', async (msg) => {
