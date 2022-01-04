@@ -42,14 +42,10 @@ client.on('ready', () => {
 async function ready() {
     while (true) {
         // client.sendMessage("6289658542202-1620654594@g.us", "Hazhebot ready.") // id group bot tester
-        const date = new Date()
-        const time = date.getHours() + ":" + date.getMinutes()
-        console.log(time)
-        const apodData = require(apodDataFilePath)
-
         axios.get('https://api.nasa.gov/planetary/apod?api_key=qdOdkXVe7t6ZDLRrumPsYVlQex4vp0eyA67c9iI6')
             .then(async (res) => {
                 data = res.data
+                const apodData = require(apodDataFilePath)
                 const apodUrlSaved = apodData.url
                 const apodUrl = data.url
                 console.log(apodUrlSaved != apodUrl)
