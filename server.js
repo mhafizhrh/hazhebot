@@ -65,7 +65,7 @@ async function ready() {
                     const mediaType = data.media_type
                     const media = new MessageMedia(`${mediaType}/${ext}`, b64data, filename)
                     const groups = [
-                        // "6281311235966-1529884533@g.us",
+                        "6281311235966-1529884533@g.us",
                         "6289658542202-1620654594@g.us"
                     ]
                     groups.forEach(chatId => {
