@@ -40,18 +40,17 @@ client.on('ready', () => {
 });
 
 async function ready() {
+    let apodUrlSaved = ""
     while (true) {
         // client.sendMessage("6289658542202-1620654594@g.us", "Hazhebot ready.") // id group bot tester
         axios.get('https://api.nasa.gov/planetary/apod?api_key=qdOdkXVe7t6ZDLRrumPsYVlQex4vp0eyA67c9iI6')
             .then(async (res) => {
                 data = res.data
-                const apodData = require(apodDataFilePath)
-                const apodUrlSaved = apodData.url
                 const apodUrl = data.url
                 console.log(apodUrlSaved != apodUrl)
                 console.log(apodUrlSaved, apodUrl)
                 if (apodUrlSaved != apodUrl) {
-                    fs.writeFileSync(apodDataFilePath, JSON.stringify(data))
+                    apodUrlSaved = data.url
                     const file_url = data.url
                     const b64data = await base64.encode(file_url, {
                         string: true
@@ -65,7 +64,7 @@ async function ready() {
                     const mediaType = data.media_type
                     const media = new MessageMedia(`${mediaType}/${ext}`, b64data, filename)
                     const groups = [
-                        "6281311235966-1529884533@g.us",
+                        // "6281311235966-1529884533@g.us",
                         "6289658542202-1620654594@g.us"
                     ]
                     groups.forEach(chatId => {
@@ -77,7 +76,7 @@ async function ready() {
 
             })
 
-        await sleep(5 * 60000)
+        await sleep(3000)
     }
 }
 client.on('message', async (msg) => {
