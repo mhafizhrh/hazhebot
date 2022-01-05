@@ -76,7 +76,7 @@ async function ready() {
 
             })
 
-        await sleep(3000)
+        await sleep(60 * 1000)
     }
 }
 client.on('message', async (msg) => {
