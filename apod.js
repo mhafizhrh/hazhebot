@@ -1,45 +1,10 @@
-require('dotenv').config()
-const {
-    Client,
-    MessageMedia
-} = require('whatsapp-web.js')
-const fs = require('fs-extra')
-const qrcode = require('qrcode-terminal')
 const axios = require('axios')
 const base64 = require('node-base64-image')
 const {
-    format
-} = require('path/posix')
-
-const apodDataFilePath = process.env.APOD_DATA_FILE_PATH
-const sessionFilePath = process.env.SESSION_FILE_PATH
-const botPrefix = process.env.BOT_PREFIX
-let clientSession
-
-if (fs.existsSync(sessionFilePath)) {
-    clientSession = require(sessionFilePath)
-}
-const client = new Client({
-    session: clientSession
-})
-
-client.on('qr', qr => {
-    qrcode.generate(qr, {
-        small: true
-    });
-});
-
-client.on('authenticated', (session) => {
-    clientSession = session
-    fs.writeFileSync(sessionFilePath, JSON.stringify(session))
-})
-
-client.on('ready', () => {
-    console.log('Client is ready!');
-    ready()
-});
-
-async function ready() {
+    MessageMedia
+} = require('whatsapp-web.js')
+const sleep = require('./helper/sleep')
+module.exports = async (client) => {
     let apodUrlSaved = ""
     while (true) {
         // client.sendMessage("6289658542202-1620654594@g.us", "Hazhebot ready.") // id group bot tester
@@ -78,29 +43,4 @@ async function ready() {
 
         await sleep(60 * 1000)
     }
-}
-client.on('message', async (msg) => {
-    console.log(msg.from)
-    if (msg.body.startsWith(botPrefix)) {
-        switch (msg.body.toLowerCase().substring(1)) {
-            case 'ping':
-                msg.reply('pong')
-                break
-            case 'sticker':
-                client.sendMessage(msg.from, `Media sedang diunduh...`)
-                const media = await msg.downloadMedia()
-                client.sendMessage(msg.from, media, {
-                    sendMediaAsSticker: true
-                })
-                break
-        }
-    }
-});
-
-client.initialize();
-
-function sleep(ms) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, ms)
-    })
 }
