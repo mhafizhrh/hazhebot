@@ -1,29 +1,13 @@
 {
-  "name": "hazhebot",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "npm run test",
-    "start": "node server.js"
+  "devDependencies": {
+    "typescript": "^4.6.4"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mhafizhrh/hazhebot.git"
-  },
-  "author": "Velzkud",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mhafizhrh/hazhebot/issues"
-  },
-  "homepage": "https://github.com/mhafizhrh/hazhebot#readme",
   "dependencies": {
-    "axios": "^0.24.0",
-    "dotenv": "^10.0.0",
-    "fs-extra": "^10.0.0",
-    "got": "^12.0.0",
-    "node-base64-image": "^2.0.3",
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "fs-extra": "^10.1.0",
+    "mongoose": "^6.3.3",
     "qrcode-terminal": "^0.12.0",
-    "whatsapp-web.js": "^1.15.3"
+    "whatsapp-web.js": "^1.16.6"
   }
 }
